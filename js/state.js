@@ -7,3 +7,5 @@ export const Teams = {
   RED: "red",
   BLUE: "blue",
 }
+
+export let units = { red: [], blue: [] }

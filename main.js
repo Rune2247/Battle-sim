@@ -1,6 +1,6 @@
 import fps from "./js/fps.js"
 import { ctx, canvas } from "./js/state.js"
-import { draw, updateUnits } from "./js/unitHandler.js"
+import { draw, updateUnits, makeUnit } from "./js/gameHandler.js"
 
 const resize = () => {
   canvas.width = innerWidth
@@ -24,4 +24,12 @@ setInterval(() => {
   render()
 }, 1000 / 30)
 
-addEventListener("click", () => {})
+let color = false
+addEventListener("click", (event) => {
+  if (color) {
+    makeUnit(event.clientX, event.clientY, "red")
+  } else {
+    makeUnit(event.clientX, event.clientY, "blue")
+  }
+  color = !color
+})
