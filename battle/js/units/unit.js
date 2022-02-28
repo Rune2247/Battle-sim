@@ -1,5 +1,5 @@
 import { ctx, Teams, units } from "../state.js"
-import { angleBetween, dist, getName, uuid } from "../utils.js"
+import { angleBetween, calcClick, dist, getName, uuid } from "../utils.js"
 
 export class Unit {
   constructor(x, y, team) {
@@ -15,10 +15,21 @@ export class Unit {
 
     this.hp = 100
     this.speed = 1
-    this.range = 2
+    this.range = 20
     this.damage = 50
 
     this.name = getName()
+
+    this.isInFocus = false
+  }
+
+  checkIfPairHitsUnit = (pair) => {
+    const hit = calcClick(pair, this)
+
+    if (hit !== false) {
+      this.isInFocus = true
+    }
+    return hit
   }
 
   setTarget = (target) => {
@@ -31,10 +42,9 @@ export class Unit {
     if (this.target !== null && this.target !== undefined) {
       if (dist(this, this.target) < this.range) {
         this.attack()
-        return
+      } else {
+        this.move()
       }
-      this.move()
-      return
     }
   }
 
@@ -46,20 +56,16 @@ export class Unit {
 
     if (units[enemyTeam].length !== 0) {
       units[enemyTeam].forEach((enemy) => {
-        if (newTarget === null) {
-          newTarget = enemy
-        }
-        if (dist(this, enemy) > distance) {
+        if (newTarget === null) newTarget = enemy
+
+        if (dist(this, enemy) < distance) {
+          distance = dist(this, enemy)
           newTarget = enemy
         }
       })
     }
-    //console.log(newTarget, this.target)
-    //if (newTarget !== null && this.target !== null) {
-    //if (newTarget.id !== this.target.id) {
+
     this.setTarget(newTarget)
-    // }
-    // }
   }
 
   attack = () => {
@@ -70,17 +76,34 @@ export class Unit {
     }
   }
 
+  checkCollision = () => {
+    //collision check
+    for (let team in units) {
+      for (let i = 0; i < units[team].length; i++) {
+        const unit = units[team][i]
+        console.log(team, i, unit)
+      }
+    }
+  }
+
   move = () => {
     this.rotation = angleBetween(this, this.target)
     this.x += Math.cos(this.rotation) * this.speed
     this.y += Math.sin(this.rotation) * this.speed
+
+    //this.checkCollision()
   }
 
   draw = () => {
     ctx.fillStyle = this.color
-    ctx.fillRect(this.x, this.y + 2, this.size, this.size)
+    ctx.fillRect(this.x, this.y, this.size, this.size)
     ctx.fillStyle = "black"
-    ctx.fillText(this.id, this.x, this.y - 2)
+    ctx.fillText(this.name, this.x, this.y - 2)
+
+    if (this.isInFocus === true) {
+      ctx.strokeStyle = "black"
+      ctx.strokeRect(this.x, this.y, this.size, this.size)
+    }
   }
 
   update = () => {

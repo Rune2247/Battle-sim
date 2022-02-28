@@ -1,5 +1,5 @@
 import { Battle } from "./battle/Battle.js"
-import { tenVten } from "./dummyData/battels.js"
+import { generatedBattle, oneVone, tenVten } from "./dummyData/battels.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
@@ -15,10 +15,9 @@ ctx.font = "20px Arial"
 resize()
 window.addEventListener("resize", resize)
 
-let startGame = false
+let battle = new Battle(oneVone)
 
-let battle = new Battle(tenVten)
-
+/*
 addEventListener("click", (event) => {
   if (color) {
     battle.makeNewUnit(event.clientX, event.clientY, "red")
@@ -27,9 +26,12 @@ addEventListener("click", (event) => {
   }
   color = !color
 })
+*/
+addEventListener("click", (event) => {
+  battle.getUnitInfo(event.clientX, event.clientY)
+})
 
 addEventListener("keyup", (event) => {
-  console.log(event)
   if (event.code === "KeyA") {
     battle.toggleStart()
   }

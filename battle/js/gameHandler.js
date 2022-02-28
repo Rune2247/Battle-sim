@@ -1,5 +1,5 @@
 import { Flag } from "./objects/flag.js"
-import { Teams, units } from "./state.js"
+import { units } from "./state.js"
 import { Unit } from "./units/unit.js"
 
 let objects = []

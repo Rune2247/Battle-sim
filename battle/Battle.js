@@ -9,10 +9,7 @@ export class Battle {
   }
 
   toggleStart = () => {
-    console.log(this.startGame, !this.startGame)
     this.startGame = !this.startGame
-
-    console.log(units)
   }
 
   update = () => {
@@ -29,5 +26,22 @@ export class Battle {
   }
   makeNewUnit(x, y, color) {
     makeUnit(x, y, color)
+  }
+
+  getUnitInfo(x, y) {
+    let it = false
+    for (let i = 0; i < units["red"].length; i++) {
+      const element = units["red"][i].checkIfPairHitsUnit({ x, y })
+      if (element !== false) {
+        it = element
+      }
+    }
+    for (let i = 0; i < units["blue"].length; i++) {
+      const element = units["blue"][i].checkIfPairHitsUnit({ x, y })
+      if (element !== false) {
+        it = element
+      }
+    }
+    return it
   }
 }
