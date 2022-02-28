@@ -1,0 +1,46 @@
+html,
+body,
+#wrapper,
+div#main {
+  height: 100%;
+  margin: 0;
+}
+
+#farming-canvas {
+  height: 300px;
+  width: 300px;
+
+  margin: 0 auto;
+
+  outline: 1px black solid;
+  image-rendering: pixelated;
+}
+
+ul {
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  border: 1px black solid;
+}
+
+.app-bar {
+  font-size: larger;
+  background-color: red;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.content {
+  padding: 0;
+  height: 100vh;
+  background-color: aquamarine;
+}
+
+.content h1 {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
