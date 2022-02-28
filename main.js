@@ -1,35 +1,41 @@
-import fps from "./js/fps.js"
-import { ctx, canvas } from "./js/state.js"
-import { draw, updateUnits, makeUnit } from "./js/gameHandler.js"
+import { Battle } from "./battle/Battle.js"
+import { tenVten } from "./dummyData/battels.js"
 
-const resize = () => {
-  canvas.width = innerWidth
-  canvas.height = innerHeight
-}
-resize()
-
-const update = () => {
-  //Update every move
-  fps.update()
-  updateUnits()
-}
-const render = () => {
-  //Draws every thing
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  draw()
-}
-
-setInterval(() => {
-  update()
-  render()
-}, 1000 / 30)
+const canvas = document.querySelector("canvas")
+const ctx = canvas.getContext("2d")
 
 let color = false
+
+const resize = () => {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+}
+ctx.font = "20px Arial"
+
+resize()
+window.addEventListener("resize", resize)
+
+let startGame = false
+
+let battle = new Battle(tenVten)
+
 addEventListener("click", (event) => {
   if (color) {
-    makeUnit(event.clientX, event.clientY, "red")
+    battle.makeNewUnit(event.clientX, event.clientY, "red")
   } else {
-    makeUnit(event.clientX, event.clientY, "blue")
+    battle.makeNewUnit(event.clientX, event.clientY, "blue")
   }
   color = !color
 })
+
+addEventListener("keyup", (event) => {
+  console.log(event)
+  if (event.code === "KeyA") {
+    battle.toggleStart()
+  }
+})
+
+setInterval(() => {
+  battle.update()
+  battle.render()
+}, 1000 / 20)

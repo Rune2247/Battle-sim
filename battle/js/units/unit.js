@@ -41,20 +41,25 @@ export class Unit {
   searchForEnemy = () => {
     const enemyTeam = this.team === Teams.RED ? Teams.BLUE : Teams.RED
 
-    if (units[enemyTeam].lenght !== 0) {
-      let distance = null
+    let distance = 0
+    let newTarget = null
+
+    if (units[enemyTeam].length !== 0) {
       units[enemyTeam].forEach((enemy) => {
-        if (distance === null) {
-          this.target === enemy
+        if (newTarget === null) {
+          newTarget = enemy
         }
         if (dist(this, enemy) > distance) {
-          this.target === enemy
+          newTarget = enemy
         }
       })
-      this.setTarget(units[enemyTeam][0])
-    } else {
-      this.setTarget(null)
     }
+    //console.log(newTarget, this.target)
+    //if (newTarget !== null && this.target !== null) {
+    //if (newTarget.id !== this.target.id) {
+    this.setTarget(newTarget)
+    // }
+    // }
   }
 
   attack = () => {
@@ -75,7 +80,7 @@ export class Unit {
     ctx.fillStyle = this.color
     ctx.fillRect(this.x, this.y + 2, this.size, this.size)
     ctx.fillStyle = "black"
-    ctx.fillText(this.name, this.x, this.y - 2)
+    ctx.fillText(this.id, this.x, this.y - 2)
   }
 
   update = () => {

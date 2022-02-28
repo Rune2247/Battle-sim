@@ -3,3 +3,5 @@ make idle unit state
 
 make teams
 make collision
+
+show fb in corner 
