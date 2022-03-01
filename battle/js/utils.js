@@ -42,8 +42,8 @@ export function uuid() {
 }
 
 export const calcClick = (pair, obj) => {
-  const top = { x: obj.x + obj.size / 2, y: obj.y + obj.size / 2 }
-  const bot = { x: obj.x - obj.size / 2, y: obj.y - obj.size / 2 }
+  const top = { x: obj.x + obj.size, y: obj.y + obj.size }
+  const bot = { x: obj.x, y: obj.y }
 
   if (pair.x > bot.x && pair.x < top.x && pair.y > bot.y && pair.y < top.y) {
     return obj

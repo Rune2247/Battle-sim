@@ -6,7 +6,7 @@ export class Unit {
     this.id = uuid()
     this.x = x
     this.y = y
-    this.size = 20
+    this.size = 25
     this.color = team
     this.team = team
 
@@ -14,9 +14,10 @@ export class Unit {
     this.rotation = 0
 
     this.hp = 100
-    this.speed = 1
-    this.range = 20
-    this.damage = 50
+    this.speed = 2.3
+    this.range = 27
+    this.minDamage = 5
+    this.damageAdd = 5
 
     this.name = getName()
 
@@ -27,7 +28,7 @@ export class Unit {
     const hit = calcClick(pair, this)
 
     if (hit !== false) {
-      this.isInFocus = true
+      this.isInFocus = !this.isInFocus
     }
     return hit
   }
@@ -70,7 +71,8 @@ export class Unit {
 
   attack = () => {
     if (this.target.hp > -1 || this.target === undefined) {
-      this.target.hp -= this.damage
+      this.target.hp -=
+        this.minDamage + Math.floor(Math.random() * this.damageAdd)
     } else {
       this.setTarget(null)
     }

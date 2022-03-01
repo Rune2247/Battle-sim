@@ -1,5 +1,11 @@
 import { Battle } from "./battle/Battle.js"
-import { generatedBattle, oneVone, tenVten } from "./dummyData/battels.js"
+import {
+  generatedBattle,
+  one,
+  oneVone,
+  tenVten,
+  unfairBlue,
+} from "./dummyData/battels.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
@@ -15,7 +21,9 @@ ctx.font = "20px Arial"
 resize()
 window.addEventListener("resize", resize)
 
-let battle = new Battle(oneVone)
+const watchList = []
+
+let battle = new Battle(unfairBlue, watchList)
 
 /*
 addEventListener("click", (event) => {
@@ -28,7 +36,18 @@ addEventListener("click", (event) => {
 })
 */
 addEventListener("click", (event) => {
-  battle.getUnitInfo(event.clientX, event.clientY)
+  const hit = battle.getUnitInfo(event.clientX, event.clientY)
+  console.log(hit)
+  if (hit !== false) {
+    let anyHits = false
+    watchList.forEach((item, index) => {
+      if (item.id === hit.id) {
+        watchList.splice(index, 1)
+        anyHits = true
+      }
+    })
+    if (!anyHits) watchList.push(hit)
+  }
 })
 
 addEventListener("keyup", (event) => {

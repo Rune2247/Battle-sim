@@ -3,9 +3,11 @@ import { ctx, canvas, units, importUnits } from "./js/state.js"
 import { draw, updateUnits, makeUnit } from "./js/gameHandler.js"
 
 export class Battle {
-  constructor(allUnits) {
+  constructor(allUnits, watchList) {
     this.startGame = false
+    this.watchList = watchList
     importUnits(allUnits)
+    console.log("New battle started")
   }
 
   toggleStart = () => {
@@ -23,7 +25,12 @@ export class Battle {
     //Draws every thing
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     draw()
+
+    if (this.watchList.length > 0) {
+      this.drawTable()
+    }
   }
+
   makeNewUnit(x, y, color) {
     makeUnit(x, y, color)
   }
@@ -43,5 +50,18 @@ export class Battle {
       }
     }
     return it
+  }
+
+  drawTable() {
+    ctx.fillStyle = "black"
+    for (let i = 0; i < this.watchList.length; i++) {
+      const element = this.watchList[i]
+      ctx.fillStyle = "black"
+      ctx.fillText(
+        element.name + "  " + element.hp,
+        innerWidth - 100,
+        10 + i * 10
+      )
+    }
   }
 }
