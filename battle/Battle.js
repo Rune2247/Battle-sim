@@ -1,6 +1,11 @@
 import fps from "./js/fps.js"
 import { ctx, canvas, units, importUnits } from "./js/state.js"
-import { draw, updateUnits, makeUnit } from "./js/gameHandler.js"
+import {
+  draw,
+  updateUnits,
+  makeUnit,
+  updateProjectile,
+} from "./js/gameHandler.js"
 
 export class Battle {
   constructor(allUnits, watchList) {
@@ -19,8 +24,10 @@ export class Battle {
     if (this.startGame) {
       fps.update()
       updateUnits()
+      updateProjectile()
     }
   }
+
   render = () => {
     //Draws every thing
     ctx.clearRect(0, 0, canvas.width, canvas.height)

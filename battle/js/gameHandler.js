@@ -1,4 +1,5 @@
-import { units } from "./state.js"
+import { Arrow } from "./objects/projectiles/Arrow.js"
+import { projectiles, units } from "./state.js"
 import { Unit } from "./units/unit.js"
 
 export const makeUnit = (x, y, color) => {
@@ -23,6 +24,15 @@ const drawUnits = () => {
   })
 }
 
+export const updateProjectile = () => {
+  projectiles.forEach((projectile) => projectile.update())
+}
+
+const drawProjectiles = () => {
+  projectiles.forEach((projectile) => projectile.draw())
+}
+
 export const draw = () => {
   drawUnits()
+  drawProjectiles()
 }
