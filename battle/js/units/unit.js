@@ -111,11 +111,9 @@ export class Unit {
   update = () => {
     if (this.hp < 0) {
       this.color = "gray"
-
       this.kill()
       return
-    }
-    this.state()
+    } else this.state()
   }
 
   kill() {
