@@ -3,6 +3,5 @@ body {
 }
 
 canvas {
-  background-color: darkgreen;
   overflow: hidden;
 }
