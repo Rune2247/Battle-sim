@@ -23,6 +23,9 @@ export class Unit extends Point {
     this.name = getName()
 
     this.isInFocus = false
+
+    this.ticks = 0
+    this.cd = 50
   }
 
   checkIfPairHitsUnit = (pair) => {
@@ -39,6 +42,7 @@ export class Unit extends Point {
   }
 
   state = () => {
+    this.ticks++
     this.searchForEnemy()
 
     if (this.target !== null && this.target !== undefined) {
@@ -56,11 +60,15 @@ export class Unit extends Point {
   }
 
   attack = () => {
-    if (this.target.hp > -1 || this.target === undefined) {
-      this.target.hp -=
-        this.minDamage + Math.floor(Math.random() * this.damageAdd)
-    } else {
-      this.setTarget(null)
+    if (this.ticks >= this.cd) {
+      console.log("smok!")
+      if (this.target.hp > -1 || this.target === undefined) {
+        this.target.hp -=
+          this.minDamage + Math.floor(Math.random() * this.damageAdd)
+      } else {
+        this.setTarget(null)
+      }
+      this.ticks = 0
     }
   }
 

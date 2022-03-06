@@ -5,6 +5,7 @@ import {
   importUnits,
   quadTree,
   refreshQuadTree,
+  projectiles,
 } from "./js/state.js"
 
 export class Battle {
@@ -12,7 +13,7 @@ export class Battle {
     this.startGame = false
     this.watchList = watchList
     importUnits(allUnits)
-    this.updateCount = 500
+    this.projectileCount = 50
   }
 
   toggleStart = () => {
@@ -32,6 +33,7 @@ export class Battle {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     this.drawUnits(quadTree)
     this.drawQuadTree(quadTree)
+    this.drawProjectiles()
     if (this.watchList.length > 0) {
       this.drawTable()
     }
@@ -89,6 +91,17 @@ export class Battle {
       qTree.children().forEach((tree) => {
         this.updateUnits(tree)
       })
+    }
+  }
+
+  drawProjectiles() {
+    projectiles.forEach((projectile) => {
+      projectile.draw()
+      projectile.update()
+    })
+
+    if (projectiles.length > this.projectileCount) {
+      projectiles.splice(0, projectiles.length % this.projectileCount)
     }
   }
 
