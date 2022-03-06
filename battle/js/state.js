@@ -39,6 +39,7 @@ export const refreshQuadTree = () => {
 }
 
 export const importUnits = (unitOBJ) => {
+  console.log(unitOBJ)
   if (unitOBJ !== null) {
     unitOBJ.forEach((element) => {
       quadTree.insert(element)

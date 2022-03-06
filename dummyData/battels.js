@@ -1,3 +1,4 @@
+import { Arrow } from "../battle/js/objects/projectiles/Arrow.js"
 import { Unit } from "../battle/js/units/unit.js"
 
 export const generatedBattle = () => {
@@ -14,7 +15,7 @@ export const generatedBattle = () => {
 
     battle.push(new Unit(index * 50 + 20, 675, "blue"))
   }
-  battle.push(new Unit(20, 50, "blue"))
+  battle.push(new Arrow(0, 0, 400, 300, 10, 10, 0, "red"))
 
   return battle
 }

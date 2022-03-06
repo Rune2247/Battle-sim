@@ -94,7 +94,7 @@ export class Battle {
 
   drawQuadTree(qTree) {
     refreshQuadTree()
-    ctx.fillStyle = "white"
+    ctx.strokeStyle = "black"
     ctx.strokeRect(
       qTree.boundary.x - qTree.boundary.w / 2,
       qTree.boundary.y - qTree.boundary.h / 2,
