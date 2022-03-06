@@ -1,16 +1,9 @@
 import { Battle } from "./battle/Battle.js"
-import {
-  generatedBattle,
-  one,
-  oneVone,
-  tenVten,
-  unfairBlue,
-} from "./dummyData/battels.js"
+import { quadTree, refreshQuadTree } from "./battle/js/state.js"
+import { generatedBattle, oneVone, unfairBlue } from "./dummyData/battels.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
-
-let color = false
 
 const resize = () => {
   canvas.width = window.innerWidth
@@ -23,18 +16,9 @@ window.addEventListener("resize", resize)
 
 const watchList = []
 
-let battle = new Battle(unfairBlue, watchList)
+let battle = new Battle(generatedBattle(), watchList)
 
 /*
-addEventListener("click", (event) => {
-  if (color) {
-    battle.makeNewUnit(event.clientX, event.clientY, "red")
-  } else {
-    battle.makeNewUnit(event.clientX, event.clientY, "blue")
-  }
-  color = !color
-})
-*/
 addEventListener("click", (event) => {
   const hit = battle.getUnitInfo(event.clientX, event.clientY)
   console.log(hit)
@@ -49,10 +33,17 @@ addEventListener("click", (event) => {
     if (!anyHits) watchList.push(hit)
   }
 })
+*/
 
 addEventListener("keyup", (event) => {
   if (event.code === "KeyA") {
     battle.toggleStart()
+  }
+})
+
+addEventListener("keyup", (event) => {
+  if (event.code === "KeyZ") {
+    console.log("Z", quadTree.getAllPoints())
   }
 })
 

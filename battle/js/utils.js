@@ -1,5 +1,3 @@
-import { draw } from "./gameHandler.js"
-
 export const dist = (obj1, obj2) =>
   Math.sqrt(Math.pow(obj2.x - obj1.x, 2) + Math.pow(obj2.y - obj1.y, 2))
 

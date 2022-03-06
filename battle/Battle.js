@@ -1,18 +1,18 @@
 import fps from "./js/fps.js"
-import { ctx, canvas, units, importUnits } from "./js/state.js"
 import {
-  draw,
-  updateUnits,
-  makeUnit,
-  updateProjectile,
-} from "./js/gameHandler.js"
+  ctx,
+  canvas,
+  importUnits,
+  quadTree,
+  refreshQuadTree,
+} from "./js/state.js"
 
 export class Battle {
   constructor(allUnits, watchList) {
     this.startGame = false
     this.watchList = watchList
     importUnits(allUnits)
-    console.log("New battle started")
+    this.updateCount = 500
   }
 
   toggleStart = () => {
@@ -23,26 +23,21 @@ export class Battle {
     //Update every move
     if (this.startGame) {
       fps.update()
-      updateUnits()
-      updateProjectile()
+      this.updateUnits(quadTree)
     }
   }
 
   render = () => {
     //Draws every thing
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    draw()
-
+    this.drawUnits(quadTree)
+    this.drawQuadTree(quadTree)
     if (this.watchList.length > 0) {
       this.drawTable()
     }
   }
-
-  makeNewUnit(x, y, color) {
-    makeUnit(x, y, color)
-  }
-
   getUnitInfo(x, y) {
+    /*
     let it = false
     for (let i = 0; i < units["red"].length; i++) {
       const element = units["red"][i].checkIfPairHitsUnit({ x, y })
@@ -57,6 +52,7 @@ export class Battle {
       }
     }
     return it
+    */
   }
 
   drawTable() {
@@ -69,6 +65,46 @@ export class Battle {
         innerWidth - 100,
         10 + i * 10
       )
+    }
+  }
+
+  drawUnits(qTree) {
+    qTree.points.forEach((point) => {
+      point.draw()
+    })
+
+    if (qTree.divided) {
+      qTree.children().forEach((tree) => {
+        this.drawUnits(tree)
+      })
+    }
+  }
+  updateUnits(qTree) {
+    console.log()
+    qTree.points.forEach((point) => {
+      point.update()
+    })
+
+    if (qTree.divided) {
+      qTree.children().forEach((tree) => {
+        this.updateUnits(tree)
+      })
+    }
+  }
+
+  drawQuadTree(qTree) {
+    refreshQuadTree()
+    ctx.fillStyle = "white"
+    ctx.strokeRect(
+      qTree.boundary.x - qTree.boundary.w / 2,
+      qTree.boundary.y - qTree.boundary.h / 2,
+      qTree.boundary.w,
+      qTree.boundary.h
+    )
+    if (qTree.divided) {
+      qTree.children().forEach((tree) => {
+        this.drawQuadTree(tree)
+      })
     }
   }
 }

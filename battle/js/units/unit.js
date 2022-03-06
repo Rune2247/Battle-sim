@@ -1,12 +1,13 @@
-import { ctx, Teams, units } from "../state.js"
+import { Point } from "../../../quadtree/Quadtree.js"
+import { ctx, quadTree } from "../state.js"
 import { angleBetween, calcClick, dist, getName, uuid } from "../utils.js"
 
-export class Unit {
+export class Unit extends Point {
   constructor(x, y, team) {
+    super(x, y)
+
     this.id = uuid()
-    this.x = x
-    this.y = y
-    this.size = 25
+    this.size = 15
     this.color = team
     this.team = team
 
@@ -17,7 +18,7 @@ export class Unit {
     this.speed = 2.3
     this.range = 27
     this.minDamage = 5
-    this.damageAdd = 5
+    this.damageAdd = 0
 
     this.name = getName()
 
@@ -50,23 +51,8 @@ export class Unit {
   }
 
   searchForEnemy = () => {
-    const enemyTeam = this.team === Teams.RED ? Teams.BLUE : Teams.RED
-
-    let distance = 0
-    let newTarget = null
-
-    if (units[enemyTeam].length !== 0) {
-      units[enemyTeam].forEach((enemy) => {
-        if (newTarget === null) newTarget = enemy
-
-        if (dist(this, enemy) < distance) {
-          distance = dist(this, enemy)
-          newTarget = enemy
-        }
-      })
-    }
-
-    this.setTarget(newTarget)
+    const target = quadTree.closestEnemy(this, this.team, 1)
+    this.setTarget(target[0])
   }
 
   attack = () => {
@@ -78,22 +64,24 @@ export class Unit {
     }
   }
 
-  checkCollision = () => {
-    //collision check
-    for (let team in units) {
-      for (let i = 0; i < units[team].length; i++) {
-        const unit = units[team][i]
-        console.log(team, i, unit)
-      }
-    }
-  }
+  checkCollision = () => {}
 
   move = () => {
     this.rotation = angleBetween(this, this.target)
     this.x += Math.cos(this.rotation) * this.speed
     this.y += Math.sin(this.rotation) * this.speed
+  }
 
-    //this.checkCollision()
+  update = () => {
+    if (this.hp < 0) {
+      this.kill()
+      return
+    } else this.state()
+  }
+
+  kill() {
+    console.log("Kill")
+    quadTree.kill(this)
   }
 
   draw = () => {
@@ -106,21 +94,5 @@ export class Unit {
       ctx.strokeStyle = "black"
       ctx.strokeRect(this.x, this.y, this.size, this.size)
     }
-  }
-
-  update = () => {
-    if (this.hp < 0) {
-      this.color = "gray"
-      this.kill()
-      return
-    } else this.state()
-  }
-
-  kill() {
-    units[this.team].forEach((u, index) => {
-      if (u.id === this.id) {
-        units[this.team].splice(index, 1)
-      }
-    })
   }
 }
