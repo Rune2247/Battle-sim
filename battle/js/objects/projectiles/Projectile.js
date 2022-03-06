@@ -1,7 +1,8 @@
-export class Projectile {
+import { Point } from "../../../../quadtree/Quadtree.js"
+
+export class Projectile extends Point {
   constructor(x, y, targetX, targetY, speed) {
-    this.x = x
-    this.y = y
+    super(x, y)
     this.targetX = targetX
     this.targetY = targetY
     this.speed = speed
