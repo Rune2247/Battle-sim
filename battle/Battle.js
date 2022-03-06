@@ -20,6 +20,10 @@ export class Battle {
     this.startGame = !this.startGame
   }
 
+  fps = () => {
+    console.log(fps.rate())
+  }
+
   update = () => {
     //Update every move
     if (this.startGame) {

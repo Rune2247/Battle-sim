@@ -5,9 +5,11 @@ export class Warrior extends Unit {
     super(x, y, team)
     this.hp = 50
     this.size = 15
-    this.speed = 3
+    this.speed = 5
     this.range = this.size + 5
-    this.minDamage = 5
+    this.minDamage = 50
     this.damageAdd = 0
+
+    this.cd = 10
   }
 }

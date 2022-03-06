@@ -30,7 +30,7 @@ export class Arrow extends Projectile {
 
       if (
         dist({ x: this.x, y: this.y }, { x: this.target.x, y: this.target.y }) >
-        this.lenght / 2 + this.target.size / 2
+        this.lenght / 2 + this.target.size
       ) {
         this.x += Math.cos(this.rotation) * this.speed
         this.y += Math.sin(this.rotation) * this.speed
