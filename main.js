@@ -1,7 +1,6 @@
 import { Battle } from "./battle/Battle.js"
 import { quadTree, refreshQuadTree } from "./battle/js/state.js"
 import { generatedBattle, oneVone, unfairBlue } from "./dummyData/battels.js"
-
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
@@ -17,6 +16,10 @@ window.addEventListener("resize", resize)
 const watchList = []
 
 let battle = new Battle(generatedBattle(), watchList)
+
+function fps() {
+  battle.fps()
+}
 
 /*
 addEventListener("click", (event) => {
@@ -43,11 +46,11 @@ addEventListener("keyup", (event) => {
 
 addEventListener("keyup", (event) => {
   if (event.code === "KeyZ") {
-    console.log("Z", quadTree.getAllPoints())
+    fps()
   }
 })
 
 setInterval(() => {
   battle.update()
   battle.render()
-}, 1000 / 20)
+}, 1000 / 30)
