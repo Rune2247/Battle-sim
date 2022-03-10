@@ -7,7 +7,7 @@ export class Archer extends Unit {
     this.hp = 70
     this.size = 10
     this.speed = 10
-    this.range = 600
+    this.range = 350
     this.minDamage = 10
     this.damageAdd = 0
 

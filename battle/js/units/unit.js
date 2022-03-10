@@ -15,7 +15,7 @@ export class Unit extends Point {
     this.rotation = 0
 
     this.hp = 100
-    this.speed = 2.3
+    this.speed = 2
     this.range = 27
     this.minDamage = 5
     this.damageAdd = 0
